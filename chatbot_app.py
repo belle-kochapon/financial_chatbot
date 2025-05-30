@@ -25,38 +25,38 @@ def load_and_prepare_data(file_path):
         st.error(f"Error: The file '{file_path}' was not found. Please ensure it's in the same directory as the app.")
         return pd.DataFrame() # Return an empty DataFrame on error
 
-# Data Cleaning and Type Conversion 
-# List of columns that should be numeric
-numeric_cols = [
-    'Total Revenue ($M)',
-    'Net Income ($M)',
-    'Total Assets ($M)',
-    'Total Liabilities ($M)',
-    'Cash Flow from Operating Activities ($M)'
-]
+    # Data Cleaning and Type Conversion 
+    # List of columns that should be numeric
+    numeric_cols = [
+        'Total Revenue ($M)',
+        'Net Income ($M)',
+        'Total Assets ($M)',
+        'Total Liabilities ($M)',
+        'Cash Flow from Operating Activities ($M)'
+    ]
 
-# Apply cleaning and conversion to each numeric column
-for col in numeric_cols:
-    if col in df.columns: # Check if the column exists
-        # Convert to string, remove commas, remove any leading/trailing spaces, then convert to numeric
-        df[col] = pd.to_numeric(df[col].astype(str).str.replace(',', '').str.strip(), errors='coerce')
-    else:
-        print(f"Warning: Column '{col}' not found in DataFrame. Please check your CSV header names.")
+    # Apply cleaning and conversion to each numeric column
+    for col in numeric_cols:
+        if col in df.columns: # Check if the column exists
+            # Convert to string, remove commas, remove any leading/trailing spaces, then convert to numeric
+            df[col] = pd.to_numeric(df[col].astype(str).str.replace(',', '').str.strip(), errors='coerce')
+        else:
+            print(f"Warning: Column '{col}' not found in DataFrame. Please check your CSV header names.")
 
-# Sort data before calculating percentage change 
-# Ensure 'Fiscal Year' is sorted correctly for pct_change to work across years within each company
-df = df.sort_values(by=['Company', 'Fiscal Year'])
+    # Sort data before calculating percentage change 
+    # Ensure 'Fiscal Year' is sorted correctly for pct_change to work across years within each company
+    df = df.sort_values(by=['Company', 'Fiscal Year'])
 
-# Calculate year-over-year changes 
-df['Revenue Growth (%)'] = df.groupby('Company')['Total Revenue ($M)'].pct_change() * 100
-df['Net Income Growth (%)'] = df.groupby('Company')['Net Income ($M)'].pct_change() * 100
-df['Total Assets Growth (%)'] = df.groupby('Company')['Total Assets ($M)'].pct_change() * 100
-df['Total Liabilities Growth (%)'] = df.groupby('Company')['Total Liabilities ($M)'].pct_change() * 100
-df['Cash Flow from Operating Activities Growth (%)'] = df.groupby('Company')['Cash Flow from Operating Activities ($M)'].pct_change() * 100
+    # Calculate year-over-year changes 
+    df['Revenue Growth (%)'] = df.groupby('Company')['Total Revenue ($M)'].pct_change() * 100
+    df['Net Income Growth (%)'] = df.groupby('Company')['Net Income ($M)'].pct_change() * 100
+    df['Total Assets Growth (%)'] = df.groupby('Company')['Total Assets ($M)'].pct_change() * 100
+    df['Total Liabilities Growth (%)'] = df.groupby('Company')['Total Liabilities ($M)'].pct_change() * 100
+    df['Cash Flow from Operating Activities Growth (%)'] = df.groupby('Company')['Cash Flow from Operating Activities ($M)'].pct_change() * 100
 
-# Fill NA values that result from pct_change calculations with 0 or an appropriate value
-df.fillna(0, inplace=True)
-return df
+    # Fill NA values that result from pct_change calculations with 0 or an appropriate value
+    df.fillna(0, inplace=True)
+    return df
 
 
 # In[ ]:
