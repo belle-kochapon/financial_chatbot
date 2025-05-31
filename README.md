@@ -18,3 +18,7 @@ This repository contains the code for a financial chatbot, built with Python and
 * Calculates year-over-year growth rates.
 * Provides financial summaries for specific companies and years.
 * Offers interactive follow-up questions.
+
+## Demo:
+![streamlit_chat01](https://github.com/user-attachments/assets/3ccb008d-b3d4-4b5a-9287-7773f08f46d4)
+![streamlit_chat02](https://github.com/user-attachments/assets/9408cc80-620f-4e72-a9e0-683ccfd452a3)
